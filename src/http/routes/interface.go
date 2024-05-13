@@ -13,4 +13,6 @@ type V1Routes struct {
 
 func (i *V1Routes) MountAll() {
 	i.MountUser()
+	i.MountNurse()
+	i.MountMedical()
 }

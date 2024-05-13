@@ -27,20 +27,3 @@ func SetupValidator() *validator.Validate {
 
 	return v
 }
-
-// func validateCategory(fl validator.FieldLevel) bool {
-// 	allowedValues := []string{
-// 		"Clothing",
-// 		"Accessories",
-// 		"Footwear",
-// 		"Beverages",
-// 	}
-
-// 	value := fl.Field().String()
-// 	for _, v := range allowedValues {
-// 		if strings.EqualFold(value, v) {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }

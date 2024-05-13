@@ -12,5 +12,11 @@ func (i *V1Routes) MountUser() {
 	g.POST("/it/register", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello from it register")
 	})
+	g.POST("/it/login", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello from it register")
+	})
+	g.POST("/nurse/login", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello from it register")
+	})
 
 }
