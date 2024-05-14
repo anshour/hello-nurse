@@ -2,6 +2,7 @@ package v1routes
 
 import (
 	userController "hello-nurse/src/http/controllers/user"
+	middleware "hello-nurse/src/utils/middlewares"
 )
 
 func (i *V1Routes) MountUser() {
@@ -11,8 +12,9 @@ func (i *V1Routes) MountUser() {
 		DB: i.DB,
 	})
 	g.POST("/it/register", userController.ITRegister)
-	g.POST("/it/login", userController.ITLogin)
 
+	g.Use(middleware.Authentication())
+	g.POST("/it/login", userController.ITLogin)
 	g.POST("/nurse/login", userController.ITLogin)
 	g.POST("/nurse/register", userController.NurseRegister)
 	g.PUT("/nurse/:userId", userController.NurseEdit)
