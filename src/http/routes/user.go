@@ -1,22 +1,22 @@
 package v1routes
 
 import (
-	"net/http"
-
-	"github.com/labstack/echo/v4"
+	userController "hello-nurse/src/http/controllers/user"
 )
 
 func (i *V1Routes) MountUser() {
 	g := i.Echo.Group("/user")
 
-	g.POST("/it/register", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
+	userController := userController.New(&userController.V1User{
+		DB: i.DB,
 	})
-	g.POST("/it/login", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
-	})
-	g.POST("/nurse/login", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
-	})
+	g.POST("/it/register", userController.ITRegister)
+	g.POST("/it/login", userController.ITLogin)
+
+	g.POST("/nurse/login", userController.ITLogin)
+	g.POST("/nurse/register", userController.NurseRegister)
+	g.PUT("/nurse/:userId", userController.NurseEdit)
+	g.DELETE("/nurse/:userId", userController.NurseDelete)
+	g.POST("/nurse/:userId/access", userController.NurseAccess)
 
 }
