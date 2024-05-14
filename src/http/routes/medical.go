@@ -1,25 +1,19 @@
 package v1routes
 
 import (
-	"net/http"
-
-	"github.com/labstack/echo/v4"
+	medicalController "hello-nurse/src/http/controllers/medical"
 )
 
 func (i *V1Routes) MountMedical() {
 	g := i.Echo.Group("/medical")
 
-	g.GET("/patient", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
+	medicalController := medicalController.New(&medicalController.V1Medical{
+		DB: i.DB,
 	})
-	g.POST("/patient", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
-	})
-	g.GET("/record", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
-	})
-	g.POST("/record", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from it register")
-	})
+
+	g.GET("/patient", medicalController.PatientList)
+	g.POST("/patient", medicalController.PatientRegister)
+	g.GET("/record", medicalController.RecordList)
+	g.POST("/record", medicalController.RecordRegister)
 
 }

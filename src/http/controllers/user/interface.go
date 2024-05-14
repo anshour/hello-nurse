@@ -28,8 +28,6 @@ type iV1User interface {
 	NurseEdit(c echo.Context) error
 	NurseDelete(c echo.Context) error
 	NurseAccess(c echo.Context) error
-
-	// Login(c echo.Context) error
 }
 
 func New(v1User *V1User) iV1User {
