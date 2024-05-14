@@ -22,15 +22,20 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
-			Message: "User registered successfully",
+			Message: err.Error(),
 			Status:  false,
 		})
 	}
 
 	hashedPassword := password.Hash(req.Password)
-
+	var nameRole string
+	if role := req.Nip[0:2]; role == "615" {
+		nameRole = "IT"
+	} else {
+		nameRole = "Nurse"
+	}
 	var UserId string
-	err = dbase.DB.QueryRow("INSERT INTO users (nip, name, password) VALUES ($1, $2, $3) RETURNING id", req.Nip, req.Name, hashedPassword).Scan(&UserId)
+	err = dbase.DB.QueryRow("INSERT INTO users (nip, name, password, role) VALUES ($1, $2, $3, $4) RETURNING id", req.Nip, req.Name, hashedPassword, nameRole).Scan(&UserId)
 	if err != nil {
 		if err, ok := err.(*pq.Error); ok {
 			return c.JSON(http.StatusConflict, ErrorResponse{
