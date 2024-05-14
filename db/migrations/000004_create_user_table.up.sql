@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
-    nip VARCHAR(13) PRIMARY KEY NOT NULL,
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    nip VARCHAR(13) NOT NULL,
     name VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(5) NOT NULL,
