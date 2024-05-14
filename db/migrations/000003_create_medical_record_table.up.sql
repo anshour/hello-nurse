@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS medical_records (
-    identity_number VARCHAR(13) PRIMARY KEY NOT NULL,
-    FOREIGN KEY (identity_number) REFERENCES patients(identity_number),
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    patient_id uuid NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES patients(id),
     symptoms VARCHAR(255) NOT NULL, 
     medications VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
