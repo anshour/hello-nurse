@@ -1,15 +1,16 @@
 package medicalController
 
-import "github.com/labstack/echo/v4"
+import (
+	"net/http"
 
-func (dbase *V1Medical) PatientRegister(c *echo.Context) {
-	// var req user.IT
+	"github.com/labstack/echo/v4"
+)
 
-	// c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully", "data": gin.H{
-	// 	"userId":      UserId,
-	// 	"phoneNumber": req.PhoneNumber,
-	// 	"name":        req.Name,
-	// 	"accessToken": accessToken,
-	// }})
+func (i *V1Medical) PatientRegister(c echo.Context) (err error) {
+
+	return c.JSON(http.StatusCreated, SuccessResponse{
+		Message: "Success",
+		Data:    "",
+	})
 
 }

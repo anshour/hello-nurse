@@ -1,4 +1,4 @@
-package medicalController
+package userController
 
 import (
 	"net/http"
@@ -6,10 +6,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (i *V1Medical) RecordList(c echo.Context) (err error) {
+func (i *V1User) NurseEdit(c echo.Context) (err error) {
 
 	return c.JSON(http.StatusCreated, SuccessResponse{
-		Message: "Success",
+		Message: "User registered successfully",
 		Data:    "",
 	})
 
