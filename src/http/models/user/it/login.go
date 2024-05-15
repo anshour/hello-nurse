@@ -1,6 +1,6 @@
 package user
 
 type ITLogin struct {
-	Nip      string `json:"nip" binding:"required,min=5,max=13"`
-	Password string `json:"password" binding:"required,min=5,max=15"`
+	Nip      int64  `json:"nip" validate:"required"`
+	Password string `json:"password" validate:"required,min=5,max=15"`
 }
