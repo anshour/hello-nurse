@@ -12,6 +12,7 @@ type sUserUsecase struct {
 type UserUsecase interface {
 	CreateUser(*entities.ITRegisterParams) (*entities.ITRegisterResult, error)
 	LoginUser(*entities.ITLoginParams) (*entities.ITLoginResult, error)
+	ListUser(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 
 func New(

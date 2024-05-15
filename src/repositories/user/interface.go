@@ -12,6 +12,7 @@ type controllerUser struct {
 type UserRepositories interface {
 	Create(*entities.ITRegisterParams) (*entities.ITRegisterResponse, error)
 	Login(*entities.ITLoginParams) (*entities.ITLoginResponse, error)
+	List(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 
 func New(db *sql.DB) UserRepositories {

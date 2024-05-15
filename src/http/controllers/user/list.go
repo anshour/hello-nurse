@@ -1,108 +1,82 @@
 package userController
 
 import (
-	"fmt"
-	"hello-nurse/src/http/models/user"
+	entities "hello-nurse/src/entities/user/it"
+	userRepository "hello-nurse/src/repositories/user"
+	userUsecase "hello-nurse/src/usecase/user"
+	"hello-nurse/src/utils/validator"
 	"net/http"
-	"strings"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-func (i *V1User) UserList(c echo.Context) (err error) {
-	baseQuery := "SELECT id, nip, name, created_at FROM users WHERE true"
-	var params []interface{}
-	var conditions, orders []string
-	var limitQuery, offsetQuery, orderByQuery string
+func (dbase *V1User) UserList(c echo.Context) (err error) {
 
-	if userId := c.QueryParam("userId"); userId != "" {
-		conditions = append(conditions, fmt.Sprintf("userId = $%d", len(params)+1))
-		params = append(params, userId)
+	filters := &entities.UserListFilter{}
+
+	if limitStr := c.QueryParam("limit"); limitStr != "" {
+		limit, err := strconv.Atoi(limitStr)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  false,
+				Message: "Invalid value for 'limit'",
+			})
+		}
+		filters.Limit = limit
+	}
+	if offsetStr := c.QueryParam("offset"); offsetStr != "" {
+		offset, err := strconv.Atoi(offsetStr)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  false,
+				Message: "Invalid value for 'offset'",
+			})
+		}
+		filters.Offset = offset
+	}
+
+	if id := c.QueryParam("userId"); id != "" {
+		filters.Id = id
 	}
 
 	if name := c.QueryParam("name"); name != "" {
-		conditions = append(conditions, fmt.Sprintf("name = $%d", len(params)+1))
-		params = append(params, name)
+		filters.Name = name
 	}
-
-	//TODO: FIX THIS
-	// if nip := c.QueryParam("nip"); nip != "" {
-	// 	conditions = append(conditions, fmt.Sprintf("nip LIKE $%d", len(params)+1))
-	// 	params = append(params, "%"+nip+"%")
-	// }
+	if nip := c.QueryParam("nip"); nip != "" {
+		nipInt, err := strconv.Atoi(nip)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  false,
+				Message: "Invalid value for 'Nip'",
+			})
+		}
+		filters.Nip = nipInt
+	}
 
 	if role := c.QueryParam("role"); role != "" {
-		conditions = append(conditions, fmt.Sprintf("role = $%d", len(params)+1))
-		params = append(params, role)
-	}
-
-	if limit := c.QueryParam("limit"); limit != "" {
-		limitQuery = fmt.Sprintf("LIMIT $%d", len(params)+1)
-		params = append(params, limit)
-	} else {
-		limitQuery = fmt.Sprintf("LIMIT $%d", len(params)+1)
-		params = append(params, 20)
-	}
-
-	if offset := c.QueryParam("offset"); offset != "" {
-		offsetQuery = fmt.Sprintf("OFFSET $%d", len(params)+1)
-		params = append(params, offset)
+		err = validator.ValidateCategory(role)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  false,
+				Message: err.Error(),
+			})
+		}
+		filters.Role = role
 	}
 
 	if createdAt := c.QueryParam("createdAt"); createdAt != "" {
-		if createdAt == "desc" {
-			createdAt = "DESC"
-		} else {
-			createdAt = "ASC"
-		}
-		orders = append(orders, fmt.Sprintf("created_at %s", createdAt))
-	} else {
-		orders = append(orders, "created_at DESC")
+		filters.CreatedAt = createdAt
 	}
 
-	if len(orders) > 0 {
-		orderByQuery = "ORDER BY " + strings.Join(orders, ", ")
-	}
-
-	if len(conditions) > 0 {
-		baseQuery += " AND " + strings.Join(conditions, " AND ")
-	}
-
-	if orderByQuery != "" {
-		baseQuery += " " + orderByQuery
-	}
-
-	if offsetQuery != "" {
-		baseQuery += " " + offsetQuery
-	}
-
-	if limitQuery != "" {
-		baseQuery += " " + limitQuery
-	}
-
-	rows, err := i.DB.Query(baseQuery, params...)
+	userList := userUsecase.New(userRepository.New(dbase.DB))
+	users, err := userList.ListUser(filters)
 
 	if err != nil {
-		return c.JSON(http.StatusConflict, ErrorResponse{Message: err.Error()})
-	}
-	defer rows.Close()
-
-	var users = make([]user.UserList, 0)
-	for rows.Next() {
-		var user user.UserList
-		if err := rows.Scan(
-			&user.UserId,
-			&user.Nip,
-			&user.Name,
-			&user.CreatedAt,
-		); err != nil {
-			return c.JSON(http.StatusInternalServerError, ErrorResponse{Message: err.Error()})
-		}
-		users = append(users, user)
-	}
-
-	if err := rows.Err(); err != nil {
-		return c.JSON(http.StatusInternalServerError, ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Status:  false,
+			Message: err.Error(),
+		})
 	}
 
 	return c.JSON(http.StatusCreated, SuccessResponse{
