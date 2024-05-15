@@ -2,9 +2,10 @@ package userController
 
 import (
 	"hello-nurse/src/constants"
+	entities "hello-nurse/src/entities/user/it"
 	user "hello-nurse/src/http/models/user/it"
-	"hello-nurse/src/utils/jwt"
-	"hello-nurse/src/utils/password"
+	userRepository "hello-nurse/src/repositories"
+	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
 	"net/http"
 	"strconv"
@@ -13,14 +14,7 @@ import (
 	"github.com/lib/pq"
 )
 
-type RegisterITResponse struct {
-	AccessToken string `json:"accessToken"`
-	UserId      string `json:"userId"`
-	Nip         int64  `json:"nip"`
-	Name        string `json:"name"`
-}
-
-func (i *V1User) ITRegister(c echo.Context) (err error) {
+func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 	var req user.ITRegister
 
 	if err := validator.BindValidate(c, &req); err != nil {
@@ -37,12 +31,16 @@ func (i *V1User) ITRegister(c echo.Context) (err error) {
 		})
 	}
 
-	role := "it"
-	hashedPassword := password.Hash(req.Password)
-	var UserId string
-	err = i.DB.QueryRow(`INSERT INTO users (nip, name, password, role) 
-    VALUES ($1, $2, $3, $4) RETURNING id`, req.Nip, req.Name, hashedPassword, role).Scan(&UserId)
+	userIT := userUsecase.New(userRepository.New(dbase.DB))
+
+	resp, err := userIT.CreateUser(&entities.ParamsITRegister{
+		Nip:      req.Nip,
+		Name:     req.Name,
+		Password: req.Password,
+	})
+
 	if err != nil {
+
 		if err, ok := err.(*pq.Error); ok {
 			if err.Code == "23505" {
 				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Nip already exist"})
@@ -56,19 +54,9 @@ func (i *V1User) ITRegister(c echo.Context) (err error) {
 		return c.JSON(http.StatusInternalServerError, ErrorResponse{Message: err.Error()})
 	}
 
-	accessToken := jwt.Generate(&jwt.TokenPayload{
-		UserId: UserId,
-		Role:   "it",
-	})
-
 	return c.JSON(http.StatusCreated, SuccessResponse{
 		Message: "User registered successfully",
-		Data: RegisterITResponse{
-			AccessToken: accessToken,
-			UserId:      UserId,
-			Nip:         req.Nip,
-			Name:        req.Name,
-		},
+		Data:    resp,
 	})
 
 }

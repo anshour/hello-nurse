@@ -1,4 +1,4 @@
-package user
+package entities
 
 type ITRegister struct {
 	Nip      int64  `json:"nip" validate:"required"`
