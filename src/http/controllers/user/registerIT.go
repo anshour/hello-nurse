@@ -11,7 +11,7 @@ import (
 	"github.com/lib/pq"
 )
 
-type ReturnData struct {
+type RegisterITResponse struct {
 	AccessToken string `json:"accessToken"`
 	UserId      string `json:"userId"`
 	Nip         int64  `json:"nip"`
@@ -53,11 +53,14 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 		UserId: UserId,
 	})
 
-	data := ReturnData{AccessToken: accessToken, UserId: UserId, Nip: req.Nip, Name: req.Name}
-
 	return c.JSON(http.StatusCreated, SuccessResponse{
 		Message: "User registered successfully",
-		Data:    data,
+		Data: RegisterITResponse{
+			AccessToken: accessToken,
+			UserId:      UserId,
+			Nip:         req.Nip,
+			Name:        req.Name,
+		},
 	})
 
 }
