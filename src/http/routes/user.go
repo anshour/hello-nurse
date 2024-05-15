@@ -12,10 +12,10 @@ func (i *V1Routes) MountUser() {
 		DB: i.DB,
 	})
 	g.POST("/it/register", userController.ITRegister)
-
-	g.Use(middleware.Authentication())
 	g.POST("/it/login", userController.ITLogin)
 	g.POST("/nurse/login", userController.ITLogin)
+
+	g.Use(middleware.Authentication())
 	g.POST("/nurse/register", userController.NurseRegister)
 	g.PUT("/nurse/:userId", userController.NurseEdit)
 	g.DELETE("/nurse/:userId", userController.NurseDelete)
