@@ -6,6 +6,7 @@ import (
 	"hello-nurse/src/utils/password"
 	"hello-nurse/src/utils/validator"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
@@ -18,7 +19,7 @@ type RegisterITResponse struct {
 	Name        string `json:"name"`
 }
 
-func (dbase *V1User) ITRegister(c echo.Context) (err error) {
+func (i *V1User) ITRegister(c echo.Context) (err error) {
 	var req user.ITRegister
 
 	if err := validator.BindValidate(c, &req); err != nil {
@@ -28,12 +29,17 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 		})
 	}
 
+	nipStr := strconv.FormatInt(req.Nip, 10)
+	if nipStr[0:3] != "615" {
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Message: "Nip must start with 615",
+		})
+	}
+
+	role := "it"
 	hashedPassword := password.Hash(req.Password)
-
-	role := "IT"
-
 	var UserId string
-	err = dbase.DB.QueryRow(`INSERT INTO users (nip, name, password, role) 
+	err = i.DB.QueryRow(`INSERT INTO users (nip, name, password, role) 
     VALUES ($1, $2, $3, $4) RETURNING id`, req.Nip, req.Name, hashedPassword, role).Scan(&UserId)
 	if err != nil {
 		if err, ok := err.(*pq.Error); ok {
