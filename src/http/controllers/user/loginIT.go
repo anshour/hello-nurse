@@ -1,10 +1,11 @@
 package userController
 
 import (
-	user "hello-nurse/src/http/models/user/it"
+	"hello-nurse/src/http/models/user"
 	"hello-nurse/src/utils/jwt"
 	utilsPassword "hello-nurse/src/utils/password"
 	"hello-nurse/src/utils/validator"
+	"strconv"
 
 	"net/http"
 
@@ -18,13 +19,22 @@ type LoginItResponse struct {
 	Name        string `json:"name"`
 }
 
+// TODO: MAKE IT LOGIN AND NURSE LOGIN AS ONE FUNCTION
+
 func (i *V1User) ITLogin(c echo.Context) (err error) {
-	var req user.ITLogin
+	var req user.UserLogin
 
 	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
 			Message: err.Error(),
 			Status:  false,
+		})
+	}
+
+	nipStr := strconv.FormatInt(req.Nip, 10)
+	if nipStr[0:3] != "615" {
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Message: "Nip must start with 615",
 		})
 	}
 
