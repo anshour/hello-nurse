@@ -17,7 +17,6 @@ func Authentication() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			tokenString := c.Request().Header.Get("Authorization")
-
 			if tokenString == "" {
 				return c.JSON(http.StatusUnauthorized, ErrorResponse{
 					Status:  false,

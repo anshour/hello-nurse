@@ -4,7 +4,7 @@ import (
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user/it"
 	user "hello-nurse/src/http/models/user/it"
-	userRepository "hello-nurse/src/repositories"
+	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
 	"net/http"
@@ -33,7 +33,7 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 
 	userIT := userUsecase.New(userRepository.New(dbase.DB))
 
-	resp, err := userIT.CreateUser(&entities.ParamsITRegister{
+	resp, err := userIT.CreateUser(&entities.ITRegisterParams{
 		Nip:      req.Nip,
 		Name:     req.Name,
 		Password: req.Password,

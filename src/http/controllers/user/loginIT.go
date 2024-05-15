@@ -1,9 +1,10 @@
 package userController
 
 import (
+	entities "hello-nurse/src/entities/user/it"
 	"hello-nurse/src/http/models/user"
-	"hello-nurse/src/utils/jwt"
-	utilsPassword "hello-nurse/src/utils/password"
+	userRepository "hello-nurse/src/repositories/user"
+	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
 	"strconv"
 
@@ -21,7 +22,7 @@ type LoginItResponse struct {
 
 // TODO: MAKE IT LOGIN AND NURSE LOGIN AS ONE FUNCTION
 
-func (i *V1User) ITLogin(c echo.Context) (err error) {
+func (dbase *V1User) ITLogin(c echo.Context) (err error) {
 	var req user.UserLogin
 
 	if err := validator.BindValidate(c, &req); err != nil {
@@ -38,36 +39,19 @@ func (i *V1User) ITLogin(c echo.Context) (err error) {
 		})
 	}
 
-	var userId string
-	var nip int64
-	var name string
-	var password string
-	err = i.DB.QueryRow("SELECT id, nip, name, password FROM users WHERE nip = $1", req.Nip).Scan(&userId, &nip, &name, &password)
-
-	if err != nil {
-		c.JSON(http.StatusNotFound, ErrorResponse{Message: "user not found"})
-		return
-	}
-
-	errs := utilsPassword.Verify(password, req.Password)
-	if errs != nil {
-		c.JSON(http.StatusBadRequest, ErrorResponse{Message: "Invalid password"})
-		return
-
-	}
-
-	accessToken := jwt.Generate(&jwt.TokenPayload{
-		UserId: userId,
-		Role:   "it",
+	data := userUsecase.New(userRepository.New(dbase.DB))
+	result, err := data.LoginUser(&entities.ITLoginParams{
+		Nip:      req.Nip,
+		Password: req.Password,
 	})
 
 	return c.JSON(http.StatusCreated, SuccessResponse{
 		Message: "Success",
 		Data: LoginItResponse{
-			AccessToken: accessToken,
-			UserId:      userId,
-			Nip:         nip,
-			Name:        name,
+			AccessToken: result.AccessToken,
+			UserId:      result.UserId,
+			Name:        result.Name,
+			Nip:         req.Nip,
 		},
 	})
 

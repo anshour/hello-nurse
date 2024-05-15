@@ -2,7 +2,7 @@ package userUsecase
 
 import (
 	entities "hello-nurse/src/entities/user/it"
-	userRepository "hello-nurse/src/repositories"
+	userRepository "hello-nurse/src/repositories/user"
 )
 
 type sUserUsecase struct {
@@ -10,8 +10,8 @@ type sUserUsecase struct {
 }
 
 type UserUsecase interface {
-	CreateUser(*entities.ParamsITRegister) (*entities.ResultITRegister, error)
-	// Login(*ParamsLogin) (*ResultLogin, error)
+	CreateUser(*entities.ITRegisterParams) (*entities.ITRegisterResult, error)
+	LoginUser(*entities.ITLoginParams) (*entities.ITLoginResult, error)
 }
 
 func New(

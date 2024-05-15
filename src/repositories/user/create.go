@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func (i *controllerRegisterIT) Create(params *entities.ParamsITRegister) (*entities.ITRegisterResponse, error) {
+func (i *controllerUser) Create(params *entities.ITRegisterParams) (*entities.ITRegisterResponse, error) {
 	var UserId string
 	err := i.DB.QueryRow(`INSERT INTO users (nip, name, password, role) 
     VALUES ($1, $2, $3, $4) RETURNING id`,
