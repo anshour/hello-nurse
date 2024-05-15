@@ -46,6 +46,7 @@ func Authentication() echo.MiddlewareFunc {
 			}
 
 			c.Set("userId", payload.UserId)
+			c.Set("role", payload.Role)
 
 			return next(c)
 		}

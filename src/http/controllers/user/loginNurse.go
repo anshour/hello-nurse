@@ -48,6 +48,7 @@ func (i *V1User) NurseLogin(c echo.Context) (err error) {
 
 	accessToken := jwt.Generate(&jwt.TokenPayload{
 		UserId: userId,
+		Role:   "nurse",
 	})
 
 	return c.JSON(http.StatusCreated, SuccessResponse{

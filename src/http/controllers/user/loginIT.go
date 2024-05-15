@@ -58,6 +58,7 @@ func (i *V1User) ITLogin(c echo.Context) (err error) {
 
 	accessToken := jwt.Generate(&jwt.TokenPayload{
 		UserId: userId,
+		Role:   "it",
 	})
 
 	return c.JSON(http.StatusCreated, SuccessResponse{

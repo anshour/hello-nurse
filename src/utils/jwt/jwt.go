@@ -11,6 +11,7 @@ import (
 
 type TokenPayload struct {
 	UserId string
+	Role   string
 }
 
 func Generate(payload *TokenPayload) string {
@@ -24,6 +25,7 @@ func Generate(payload *TokenPayload) string {
 		"exp":    time.Now().Add(v).Unix(),
 		"iat":    time.Now().Unix(),
 		"userId": payload.UserId,
+		"role":   payload.Role,
 	})
 
 	token, err := t.SignedString([]byte(config.JWT_SECRET))
@@ -57,12 +59,18 @@ func Verify(token string) (*TokenPayload, error) {
 		return nil, err
 	}
 
-	id, ok := claims["userId"].(string)
+	userId, ok := claims["userId"].(string)
 	if !ok {
-		return nil, errors.New("something went wrong")
+		return nil, errors.New("something went wrong.code 1a")
+	}
+
+	role, ok := claims["role"].(string)
+	if !ok {
+		return nil, errors.New("something went wrong. code 1b")
 	}
 
 	return &TokenPayload{
-		UserId: id,
+		UserId: userId,
+		Role:   role,
 	}, nil
 }
