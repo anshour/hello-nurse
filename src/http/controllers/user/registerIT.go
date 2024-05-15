@@ -4,6 +4,7 @@ import (
 	user "hello-nurse/src/http/models/user/it"
 	"hello-nurse/src/utils/jwt"
 	"hello-nurse/src/utils/password"
+	"hello-nurse/src/utils/validator"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -11,16 +12,16 @@ import (
 )
 
 type ReturnData struct {
-	accessToken string
-	userId      string
-	nip         string
-	name        string
+	AccessToken string `json:"accessToken"`
+	UserId      string `json:"userId"`
+	Nip         int64  `json:"nip"`
+	Name        string `json:"name"`
 }
 
 func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 	var req user.ITRegister
 
-	if err := c.Bind(&req); err != nil {
+	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
 			Message: err.Error(),
 			Status:  false,
@@ -28,20 +29,23 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 	}
 
 	hashedPassword := password.Hash(req.Password)
-	var nameRole string
-	if role := req.Nip[0:2]; role == "615" {
-		nameRole = "IT"
-	} else {
-		nameRole = "Nurse"
-	}
+
+	role := "IT"
+
 	var UserId string
-	err = dbase.DB.QueryRow("INSERT INTO users (nip, name, password, role) VALUES ($1, $2, $3, $4) RETURNING id", req.Nip, req.Name, hashedPassword, nameRole).Scan(&UserId)
+	err = dbase.DB.QueryRow(`INSERT INTO users (nip, name, password, role) 
+    VALUES ($1, $2, $3, $4) RETURNING id`, req.Nip, req.Name, hashedPassword, role).Scan(&UserId)
 	if err != nil {
 		if err, ok := err.(*pq.Error); ok {
+			if err.Code == "23505" {
+				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Nip already exist"})
+			}
+
 			return c.JSON(http.StatusConflict, ErrorResponse{
 				Message: err.Detail,
 			})
 		}
+
 		return c.JSON(http.StatusInternalServerError, ErrorResponse{Message: err.Error()})
 	}
 
@@ -49,7 +53,7 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 		UserId: UserId,
 	})
 
-	data := ReturnData{accessToken: accessToken, userId: UserId, nip: req.Nip, name: req.Name}
+	data := ReturnData{AccessToken: accessToken, UserId: UserId, Nip: req.Nip, Name: req.Name}
 
 	return c.JSON(http.StatusCreated, SuccessResponse{
 		Message: "User registered successfully",
