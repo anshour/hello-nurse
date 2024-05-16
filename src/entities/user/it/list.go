@@ -1,11 +1,11 @@
 package entities
 
 type UserListResponse struct {
-	Id        string
-	Nip       int
-	Name      string
-	Role      string
-	CreatedAt string
+	Id        string `json:"userId"`
+	Nip       int    `json:"nip"`
+	Name      string `json:"name"`
+	Role      string `json:"role"`
+	CreatedAt string `json:"createdAt"`
 }
 
 type UserListFilter struct {
@@ -16,10 +16,4 @@ type UserListFilter struct {
 	CreatedAt string
 	Limit     int
 	Offset    int
-}
-
-type UserListResult struct {
-	AccessToken string `json:"accessToken"`
-	UserId      string `json:"userId"`
-	Name        string `json:"name"`
 }

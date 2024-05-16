@@ -1,6 +1,6 @@
 package entities
 
-type ITLoginResponse struct {
+type LoginResponse struct {
 	Id       string
 	Nip      int64
 	Name     string
@@ -8,13 +8,14 @@ type ITLoginResponse struct {
 	Role     string
 }
 
-type ITLoginParams struct {
+type LoginParams struct {
 	Nip      int64
 	Password string
 }
 
-type ITLoginResult struct {
+type LoginResult struct {
 	AccessToken string `json:"accessToken"`
 	UserId      string `json:"userId"`
 	Name        string `json:"name"`
+	Nip         int64  `json:"nip"`
 }

@@ -1,7 +1,7 @@
 package userController
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	"hello-nurse/src/http/models/user"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
@@ -12,13 +12,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 )
-
-type LoginItResponse struct {
-	AccessToken string `json:"accessToken"`
-	UserId      string `json:"userId"`
-	Nip         int64  `json:"nip"`
-	Name        string `json:"name"`
-}
 
 // TODO: MAKE IT LOGIN AND NURSE LOGIN AS ONE FUNCTION
 
@@ -40,19 +33,14 @@ func (dbase *V1User) ITLogin(c echo.Context) (err error) {
 	}
 
 	data := userUsecase.New(userRepository.New(dbase.DB))
-	result, err := data.LoginUser(&entities.ITLoginParams{
+	result, err := data.LoginUser(&entities.LoginParams{
 		Nip:      req.Nip,
 		Password: req.Password,
 	})
 
 	return c.JSON(http.StatusCreated, SuccessResponse{
 		Message: "Success",
-		Data: LoginItResponse{
-			AccessToken: result.AccessToken,
-			UserId:      result.UserId,
-			Name:        result.Name,
-			Nip:         req.Nip,
-		},
+		Data:    result,
 	})
 
 }

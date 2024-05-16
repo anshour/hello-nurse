@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func (i *controllerUser) Login(params *entities.ITLoginParams) (*entities.ITLoginResponse, error) {
+func (i *controllerUser) Login(params *entitites.LoginParams) (*entities.LoginResponse, error) {
 
 	var userId string
 	var nip int64
@@ -18,7 +18,7 @@ func (i *controllerUser) Login(params *entities.ITLoginParams) (*entities.ITLogi
 		return nil, err
 	}
 
-	user := &entities.ITLoginResponse{
+	user := &entities.LoginResponse{
 		Id:       userId,
 		Nip:      nip,
 		Name:     name,

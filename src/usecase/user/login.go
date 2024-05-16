@@ -7,11 +7,11 @@ import (
 	"log"
 )
 
-func (i *sUserUsecase) LoginUser(p *entities.ITLoginParams) (*entities.ITLoginResult, error) {
+func (i *sUserUsecase) LoginUser(p *entitites.LoginParams) (*entities.LoginResult, error) {
 
 	hashedPassword := password.Hash(p.Password)
 
-	data, err := i.userRepository.Login(&entities.ITLoginParams{
+	data, err := i.userRepository.Login(&entitites.LoginParams{
 		Nip:      p.Nip,
 		Password: hashedPassword,
 	})
@@ -32,9 +32,10 @@ func (i *sUserUsecase) LoginUser(p *entities.ITLoginParams) (*entities.ITLoginRe
 		Role:   data.Role,
 	})
 
-	return &entities.ITLoginResult{
+	return &entities.LoginResult{
 		UserId:      data.Id,
 		Name:        data.Name,
 		AccessToken: accessToken,
+		Nip:         data.Nip,
 	}, nil
 }
