@@ -1,11 +1,11 @@
 package userRepository
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	"log"
 )
 
-func (i *controllerUser) Login(params *entitites.LoginParams) (*entities.LoginResponse, error) {
+func (i *controllerUser) Login(params *entities.LoginParams) (*entities.LoginResponse, error) {
 
 	var userId string
 	var nip int64

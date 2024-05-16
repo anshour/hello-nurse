@@ -1,8 +1,7 @@
 package userUsecase
 
 import (
-	entitiesLogin "hello-nurse/src/entities/user"
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	userRepository "hello-nurse/src/repositories/user"
 )
 
@@ -12,7 +11,7 @@ type sUserUsecase struct {
 
 type UserUsecase interface {
 	CreateUser(*entities.ITRegisterParams) (*entities.ITRegisterResult, error)
-	LoginUser(*entitiesLogin.LoginParams) (*entitiesLogin.LoginResult, error)
+	LoginUser(*entities.LoginParams) (*entities.LoginResult, error)
 	ListUser(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 

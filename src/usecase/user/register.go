@@ -1,7 +1,7 @@
 package userUsecase
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	"hello-nurse/src/utils/jwt"
 	"hello-nurse/src/utils/password"
 )

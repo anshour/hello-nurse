@@ -1,17 +1,17 @@
 package userUsecase
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	"hello-nurse/src/utils/jwt"
 	"hello-nurse/src/utils/password"
 	"log"
 )
 
-func (i *sUserUsecase) LoginUser(p *entitites.LoginParams) (*entities.LoginResult, error) {
+func (i *sUserUsecase) LoginUser(p *entities.LoginParams) (*entities.LoginResult, error) {
 
 	hashedPassword := password.Hash(p.Password)
 
-	data, err := i.userRepository.Login(&entitites.LoginParams{
+	data, err := i.userRepository.Login(&entities.LoginParams{
 		Nip:      p.Nip,
 		Password: hashedPassword,
 	})

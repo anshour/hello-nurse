@@ -2,8 +2,7 @@ package userRepository
 
 import (
 	"database/sql"
-	entitiesLogin "hello-nurse/src/entities/user"
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 )
 
 type controllerUser struct {
@@ -12,7 +11,7 @@ type controllerUser struct {
 
 type UserRepositories interface {
 	Create(*entities.ITRegisterParams) (*entities.ITRegisterResponse, error)
-	Login(*entitiesLogin.LoginParams) (*entitiesLogin.LoginResponse, error)
+	Login(*entities.LoginParams) (*entities.LoginResponse, error)
 	List(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 

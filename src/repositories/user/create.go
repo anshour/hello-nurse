@@ -1,7 +1,7 @@
 package userRepository
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	"log"
 )
 

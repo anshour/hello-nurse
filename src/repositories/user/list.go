@@ -2,7 +2,7 @@ package userRepository
 
 import (
 	"fmt"
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	"log"
 	"reflect"
 	"strconv"

@@ -1,7 +1,7 @@
 package userController
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"

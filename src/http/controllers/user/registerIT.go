@@ -2,7 +2,7 @@ package userController
 
 import (
 	"hello-nurse/src/constants"
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 	user "hello-nurse/src/http/models/user/it"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"

@@ -1,7 +1,7 @@
 package userUsecase
 
 import (
-	entities "hello-nurse/src/entities/user/it"
+	entities "hello-nurse/src/entities/user"
 )
 
 func (i *sUserUsecase) ListUser(filters *entities.UserListFilter) ([]*entities.UserListResponse, error) {
