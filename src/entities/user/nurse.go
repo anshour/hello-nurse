@@ -24,3 +24,7 @@ type NurseRegisterResult struct {
 	Nip    int64  `json:"nip"`
 	Name   string `json:"name"`
 }
+
+type NurseDeleteParams struct {
+	UserId string
+}
