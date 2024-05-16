@@ -1,7 +1,7 @@
 package entities
 
 type NurseRegisterResponse struct {
-	Id string
+	UserId string
 }
 
 type NurseRegisterParams struct {
@@ -17,6 +17,7 @@ type NurseEditParams struct {
 }
 type NurseRegisterAccess struct {
 	Password string
+	UserId   string
 }
 type NurseRegisterResult struct {
 	UserId string `json:"userId"`

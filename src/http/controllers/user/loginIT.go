@@ -1,12 +1,12 @@
 package userController
 
 import (
+	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	"hello-nurse/src/http/models/user"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
-	"strconv"
 
 	"net/http"
 
@@ -25,10 +25,11 @@ func (dbase *V1User) ITLogin(c echo.Context) (err error) {
 		})
 	}
 
-	nipStr := strconv.FormatInt(req.Nip, 10)
-	if nipStr[0:3] != "615" {
+	check := validator.ValidateNip(req.Nip, constants.NipIT)
+
+	if check != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
-			Message: "Nip must start with 615",
+			Message: check.Error(),
 		})
 	}
 

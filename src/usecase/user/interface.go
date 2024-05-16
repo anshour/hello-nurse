@@ -13,6 +13,7 @@ type UserUsecase interface {
 	CreateUser(*entities.ITRegisterParams) (*entities.ITRegisterResult, error)
 	LoginUser(*entities.LoginParams) (*entities.LoginResult, error)
 	CreateNurse(*entities.NurseRegisterParams) (*entities.NurseRegisterResult, error)
+	CreateNurseAccess(*entities.NurseRegisterAccess) error
 	ListUser(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 

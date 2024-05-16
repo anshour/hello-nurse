@@ -19,7 +19,7 @@ func (i *controllerUser) CreateNurse(params *entities.NurseRegisterParams) (*ent
 	}
 
 	user := &entities.NurseRegisterResponse{
-		Id: UserId,
+		UserId: UserId,
 	}
 
 	return user, nil

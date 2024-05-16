@@ -17,7 +17,7 @@ func (i *sUserUsecase) CreateNurse(p *entities.NurseRegisterParams) (*entities.N
 	}
 
 	return &entities.NurseRegisterResult{
-		UserId: data.Id,
+		UserId: data.UserId,
 		Nip:    p.Nip,
 		Name:   p.Name,
 	}, nil

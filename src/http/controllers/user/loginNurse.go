@@ -1,14 +1,12 @@
 package userController
 
 import (
-	"fmt"
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	"hello-nurse/src/http/models/user"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
-	"strconv"
 
 	"net/http"
 
@@ -27,10 +25,10 @@ func (dbase *V1User) NurseLogin(c echo.Context) (err error) {
 		})
 	}
 
-	nipStr := strconv.FormatInt(req.Nip, 10)
-	if nipStr[0:3] != constants.NipNurse {
+	check := validator.ValidateNip(req.Nip, constants.NipNurse)
+	if check != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
-			Message: fmt.Sprintln("Nip must start with $1", constants.NipNurse),
+			Message: check.Error(),
 		})
 	}
 

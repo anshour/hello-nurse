@@ -1,7 +1,6 @@
 package userController
 
 import (
-	"fmt"
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	user "hello-nurse/src/http/models/user/nurse"
@@ -9,7 +8,6 @@ import (
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
@@ -25,12 +23,14 @@ func (dbase *V1User) NurseRegister(c echo.Context) (err error) {
 		})
 	}
 
-	nipStr := strconv.FormatInt(req.Nip, 10)
-	if nipStr[0:3] != constants.NipNurse {
+	result := validator.ValidateNip(req.Nip, constants.NipNurse)
+
+	if result != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
-			Message: fmt.Sprintln("Nip must start with $1", constants.NipNurse),
+			Message: result.Error(),
 		})
 	}
+
 	userIT := userUsecase.New(userRepository.New(dbase.DB))
 
 	resp, err := userIT.CreateNurse(&entities.NurseRegisterParams{
