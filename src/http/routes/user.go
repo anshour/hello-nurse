@@ -15,12 +15,13 @@ func (i *V1Routes) MountUser() {
 	g.POST("/it/login", userController.ITLogin)
 	g.POST("/nurse/login", userController.ITLogin)
 
-	g.Use(middleware.Authentication(), middleware.OnlyRole("it"))
+	group := i.Echo.Group("/user")
+	group.Use(middleware.Authentication(), middleware.OnlyRole("it"))
 
-	g.GET("/", userController.UserList)
-	g.POST("/nurse/register", userController.NurseRegister)
-	g.PUT("/nurse/:userId", userController.NurseEdit)
-	g.DELETE("/nurse/:userId", userController.NurseDelete)
-	g.POST("/nurse/:userId/access", userController.NurseAccess)
+	group.GET("", userController.UserList)
+	group.POST("/nurse/register", userController.NurseRegister)
+	group.PUT("/nurse/:userId", userController.NurseEdit)
+	group.DELETE("/nurse/:userId", userController.NurseDelete)
+	group.POST("/nurse/:userId/access", userController.NurseAccess)
 
 }

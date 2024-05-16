@@ -4,7 +4,6 @@ type UserListResponse struct {
 	Id        string
 	Nip       int
 	Name      string
-	Password  string
 	Role      string
 	CreatedAt string
 }
