@@ -11,10 +11,6 @@ type NurseRegisterParams struct {
 	Role         string
 }
 
-type NurseEditParams struct {
-	Nip  int64
-	Name string
-}
 type NurseRegisterAccess struct {
 	Password string
 	UserId   string
@@ -27,4 +23,10 @@ type NurseRegisterResult struct {
 
 type NurseDeleteParams struct {
 	UserId string
+}
+
+type NurseEditParams struct {
+	Nip    int64  `json:"nip"`
+	Name   string `json:"name"`
+	UserId string `json:"userId"`
 }

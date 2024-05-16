@@ -15,6 +15,7 @@ type UserRepositories interface {
 	CreateNurse(*entities.NurseRegisterParams) (*entities.NurseRegisterResponse, error)
 	CreateNurseAccess(*entities.NurseRegisterAccess) error
 	DeleteNurse(*entities.NurseDeleteParams) error
+	EditNurse(*entities.NurseEditParams) error
 	List(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 

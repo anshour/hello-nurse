@@ -15,6 +15,7 @@ type UserUsecase interface {
 	CreateNurse(*entities.NurseRegisterParams) (*entities.NurseRegisterResult, error)
 	CreateNurseAccess(*entities.NurseRegisterAccess) error
 	DeleteNurse(*entities.NurseDeleteParams) error
+	EditNurse(*entities.NurseEditParams) error
 	ListUser(*entities.UserListFilter) ([]*entities.UserListResponse, error)
 }
 
