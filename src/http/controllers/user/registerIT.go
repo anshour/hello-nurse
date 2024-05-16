@@ -1,6 +1,7 @@
 package userController
 
 import (
+	"fmt"
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	user "hello-nurse/src/http/models/user/it"
@@ -27,7 +28,7 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 	nipStr := strconv.FormatInt(req.Nip, 10)
 	if nipStr[0:3] != constants.NipIT {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
-			Message: "Nip must start with 615",
+			Message: fmt.Sprintln("Nip must start with $1", constants.NipIT),
 		})
 	}
 
