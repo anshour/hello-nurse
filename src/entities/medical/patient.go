@@ -16,3 +16,13 @@ type PatientRegisterParams struct {
 	Gender         string
 	IdentityCard   string
 }
+
+type UserListFilter struct {
+	IdentityNumber int
+	PhoneNumber    string
+	Name           string
+	CreatedAt      string
+	Limit          int
+	Offset         int
+	UserId         string
+}
