@@ -6,4 +6,5 @@ type PatientRegister struct {
 	Name           string `json:"name" validate:"required,min=5,max=50"`
 	BirtDate       string `json:"birth_date" validate:"required,min=2,max=70"`
 	Gender         string `json:"gender" validate:"required,min=4,max=6"`
+	IdentityCard   string `json:"identity_card" validate:"required,min=4,max=255"`
 }

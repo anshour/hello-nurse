@@ -9,7 +9,7 @@ type RecordRegisterResult struct {
 }
 
 type RecordRegisterParams struct {
-	IdentityNumber int64
+	IdentityNumber string
 	Symptoms       string
 	Medications    string
 }
