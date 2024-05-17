@@ -7,10 +7,10 @@ import (
 
 func (i *controllerUser) Create(params *entities.ITRegisterParams) (*entities.ITRegisterResponse, error) {
 	var UserId string
+	println("params.Role: ", params.Role)
 	err := i.DB.QueryRow(`INSERT INTO users (nip, name, password, role) 
     VALUES ($1, $2, $3, $4) RETURNING id`,
-		params.Nip, params.Name, params.Password,
-		params.Role,
+		params.Nip, params.Name, params.Password, params.Role,
 	).Scan(&UserId)
 
 	if err != nil {

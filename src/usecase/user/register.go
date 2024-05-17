@@ -14,7 +14,7 @@ func (i *sUserUsecase) CreateUser(p *entities.ITRegisterParams) (*entities.ITReg
 		Nip:      p.Nip,
 		Name:     p.Name,
 		Password: hashedPassword,
-		Role:     "it",
+		Role:     p.Role,
 	})
 
 	if err != nil {
@@ -23,7 +23,7 @@ func (i *sUserUsecase) CreateUser(p *entities.ITRegisterParams) (*entities.ITReg
 
 	accessToken := jwt.Generate(&jwt.TokenPayload{
 		UserId: data.Id,
-		Role:   "it",
+		Role:   p.Role,
 	})
 
 	return &entities.ITRegisterResult{

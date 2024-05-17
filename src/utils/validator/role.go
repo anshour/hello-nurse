@@ -2,11 +2,12 @@ package validator
 
 import (
 	"errors"
+	"hello-nurse/src/constants"
 )
 
 const (
-	IT    string = "It"
-	NURSE string = "Nurse"
+	IT    string = constants.ROLE_IT
+	NURSE string = constants.ROLE_NURSE
 )
 
 func ValidateCategory(status string) error {

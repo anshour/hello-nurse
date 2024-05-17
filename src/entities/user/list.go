@@ -4,7 +4,6 @@ type UserListResponse struct {
 	Id        string `json:"userId"`
 	Nip       int    `json:"nip"`
 	Name      string `json:"name"`
-	Role      string `json:"role"`
 	CreatedAt string `json:"createdAt"`
 }
 

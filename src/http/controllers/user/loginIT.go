@@ -3,7 +3,6 @@ package userController
 import (
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
-	"hello-nurse/src/http/models/user"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
@@ -16,7 +15,7 @@ import (
 // TODO: MAKE IT LOGIN AND NURSE LOGIN AS ONE FUNCTION
 
 func (dbase *V1User) ITLogin(c echo.Context) (err error) {
-	var req user.UserLogin
+	var req entities.UserLogin
 
 	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{

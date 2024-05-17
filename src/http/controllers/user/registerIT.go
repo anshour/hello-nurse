@@ -3,7 +3,6 @@ package userController
 import (
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
-	user "hello-nurse/src/http/models/user/it"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
 	"hello-nurse/src/utils/validator"
@@ -14,7 +13,7 @@ import (
 )
 
 func (dbase *V1User) ITRegister(c echo.Context) (err error) {
-	var req user.ITRegister
+	var req entities.ITRegister
 
 	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
@@ -36,6 +35,7 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 		Nip:      req.Nip,
 		Name:     req.Name,
 		Password: req.Password,
+		Role:     constants.ROLE_IT,
 	})
 
 	if err != nil {

@@ -2,7 +2,6 @@ package medicalController
 
 import (
 	entities "hello-nurse/src/entities/medical"
-	medical "hello-nurse/src/http/models/medical/patient"
 	medicalRepository "hello-nurse/src/repositories/medical"
 	medicalUsecase "hello-nurse/src/usecase/medical"
 	"hello-nurse/src/utils/validator"
@@ -13,7 +12,7 @@ import (
 )
 
 func (dbase *V1Medical) PatientRegister(c echo.Context) (err error) {
-	var req medical.PatientRegister
+	var req entities.PatientRegister
 
 	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{

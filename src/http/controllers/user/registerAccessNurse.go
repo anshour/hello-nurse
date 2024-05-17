@@ -20,7 +20,7 @@ func (dbase *V1User) NurseAccess(c echo.Context) (err error) {
 		})
 	}
 
-	var req *entities.NurseRegisterAccess
+	var req entities.NurseRegisterAccess
 
 	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{

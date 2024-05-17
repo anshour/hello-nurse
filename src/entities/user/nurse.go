@@ -1,5 +1,11 @@
 package entities
 
+type NurseRegister struct {
+	Nip           int64  `json:"nip" validate:"required"`
+	Name          string `json:"name" validate:"required,min=5,max=50"`
+	IdentityImage string `json:"identityCardScanImg" validate:"required"`
+}
+
 type NurseRegisterResponse struct {
 	UserId string
 }
@@ -12,8 +18,8 @@ type NurseRegisterParams struct {
 }
 
 type NurseRegisterAccess struct {
-	Password string
-	UserId   string
+	Password string `json:"password"`
+	UserId   string `json:"userId"`
 }
 type NurseRegisterResult struct {
 	UserId string `json:"userId"`
@@ -29,4 +35,9 @@ type NurseEditParams struct {
 	Nip    int64  `json:"nip"`
 	Name   string `json:"name"`
 	UserId string `json:"userId"`
+}
+
+type NurseEdit struct {
+	Nip  int64  `json:"nip" validate:"required"`
+	Name string `json:"name" validate:"required,min=5,max=50"`
 }

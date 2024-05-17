@@ -7,7 +7,7 @@ import (
 )
 
 func (dbase *controllerUser) DeleteNurse(params *entities.NurseDeleteParams) error {
-	rows, err := dbase.DB.Exec("DELETE FROM products WHERE id = $1", params.UserId)
+	rows, err := dbase.DB.Exec("DELETE FROM users WHERE id = $1", params.UserId)
 
 	if err != nil {
 		log.Printf("Error deleting user: %s", err)
