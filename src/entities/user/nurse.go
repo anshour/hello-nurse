@@ -18,7 +18,7 @@ type NurseRegisterParams struct {
 }
 
 type NurseRegisterAccess struct {
-	Password string `json:"password"`
+	Password string `json:"password" validate:"required,min=5,max=33"`
 	UserId   string `json:"userId"`
 }
 type NurseRegisterResult struct {
