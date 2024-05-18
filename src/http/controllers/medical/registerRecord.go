@@ -37,6 +37,10 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Indentity Number already exist"})
 			}
 
+			if err.Code == "23503" {
+				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Patient with identity number doesnt exist"})
+			}
+
 			return c.JSON(http.StatusConflict, ErrorResponse{
 				Message: err.Detail,
 			})
