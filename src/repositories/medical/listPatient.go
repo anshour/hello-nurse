@@ -9,7 +9,7 @@ import (
 )
 
 func (dbase *controllerMedical) ListPatient(filters *entities.PatientListFilter) ([]*entities.PatientListResult, error) {
-	baseQuery := "SELECT identity_number, name, phone_number, birth_date, gender, created_at FROM users WHERE true"
+	baseQuery := "SELECT identity_number, name, phone_number, birth_date, gender, created_at FROM patients WHERE true"
 	params := []interface{}{}
 	n := (&entities.PatientListFilter{})
 
