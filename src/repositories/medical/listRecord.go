@@ -39,11 +39,6 @@ func (dbase *controllerMedical) ListRecord(filters *entities.RecordListFilter) (
 			params = append(params, filters.Nip)
 		}
 
-		if filters.CreatedAt != "" {
-			conditions = append(conditions, "created_at = $"+strconv.Itoa(len(params)+1))
-			params = append(params, filters.CreatedAt)
-		}
-
 		if len(conditions) > 0 {
 			baseQuery += " AND "
 		}
@@ -53,8 +48,13 @@ func (dbase *controllerMedical) ListRecord(filters *entities.RecordListFilter) (
 	if filters.Limit == 0 {
 		filters.Limit = 5
 	}
-
-	baseQuery += " ORDER BY created_at DESC"
+	if filters.CreatedAt == "" {
+		filters.CreatedAt = "DESC"
+	}
+	if filters.CreatedAt == "asc" {
+		filters.CreatedAt = "ASC"
+	}
+	baseQuery += " ORDER BY created_at " + filters.CreatedAt
 
 	baseQuery += " LIMIT $" + strconv.Itoa(len(params)+1)
 	params = append(params, filters.Limit)

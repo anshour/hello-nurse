@@ -1,7 +1,7 @@
 package entities
 
 type PatientRegister struct {
-	IdentityNumber string `json:"identityNumber" validate:"required,min=16,max=16"`
+	IdentityNumber int    `json:"identityNumber" validate:"required"`
 	PhoneNumber    string `json:"phoneNumber" validate:"required,min=10,max=15"`
 	Name           string `json:"name" validate:"required,min=5,max=50"`
 	BirthDate      string `json:"birthDate" validate:"required,min=2,max=70"`
@@ -10,7 +10,7 @@ type PatientRegister struct {
 }
 
 type PatientListFilter struct {
-	IdentityNumber string
+	IdentityNumber int
 	Name           string
 	PhoneNumber    string
 	CreatedAt      string
@@ -19,7 +19,7 @@ type PatientListFilter struct {
 }
 
 type PatientListResult struct {
-	IdentityNumber string `json:"identityNumber"`
+	IdentityNumber int    `json:"identityNumber"`
 	Name           string `json:"name"`
 	PhoneNumber    string `json:"phoneNumber"`
 	CreatedAt      string `json:"createdAt"`
@@ -36,7 +36,7 @@ type PatientRegisterResult struct {
 }
 
 type PatientRegisterParams struct {
-	IdentityNumber string
+	IdentityNumber int
 	Name           string
 	PhoneNumber    string
 	BirthDate      string

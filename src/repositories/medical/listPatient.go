@@ -16,7 +16,7 @@ func (dbase *controllerMedical) ListPatient(filters *entities.PatientListFilter)
 	if !reflect.DeepEqual(filters, n) {
 		conditions := []string{}
 
-		if filters.IdentityNumber != "" {
+		if filters.IdentityNumber != 0 {
 			conditions = append(conditions, "identity_number = $"+strconv.Itoa(len(params)+1))
 			params = append(params, filters.IdentityNumber)
 		}
@@ -28,10 +28,7 @@ func (dbase *controllerMedical) ListPatient(filters *entities.PatientListFilter)
 			conditions = append(conditions, "phone_number LIKE $"+strconv.Itoa(len(params)+1))
 			params = append(params, "%"+filters.PhoneNumber+"%")
 		}
-		if filters.CreatedAt != "" {
-			conditions = append(conditions, "created_at = $"+strconv.Itoa(len(params)+1))
-			params = append(params, filters.CreatedAt)
-		}
+
 		if len(conditions) > 0 {
 			baseQuery += " AND "
 		}
@@ -43,7 +40,14 @@ func (dbase *controllerMedical) ListPatient(filters *entities.PatientListFilter)
 		filters.Limit = 5
 	}
 
-	baseQuery += " ORDER BY created_at DESC"
+	if filters.CreatedAt == "" {
+		filters.CreatedAt = "DESC"
+	}
+	if filters.CreatedAt == "asc" {
+		filters.CreatedAt = "ASC"
+	}
+
+	baseQuery += " ORDER BY created_at " + filters.CreatedAt
 
 	baseQuery += " LIMIT $" + strconv.Itoa(len(params)+1)
 	params = append(params, filters.Limit)
