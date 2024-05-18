@@ -10,7 +10,7 @@ import (
 )
 
 func (i *controllerUser) List(filters *entities.UserListFilter) ([]*entities.UserListResponse, error) {
-	baseQuery := "SELECT id, nip, name, created_at FROM users WHERE true"
+	baseQuery := "SELECT id, nip, name, created_at FROM patients WHERE true"
 	params := []interface{}{}
 
 	n := (&entities.UserListFilter{})
