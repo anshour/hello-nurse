@@ -42,7 +42,7 @@ func (dbase *V1User) NurseAccess(c echo.Context) (err error) {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "Nurse Access Granted",
 		Data:    "",
 	})
