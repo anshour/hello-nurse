@@ -2,11 +2,12 @@ package validator
 
 import (
 	"errors"
+	"hello-nurse/src/constants"
 )
 
 const (
-	MALE   string = "male"
-	FEMALE string = "female"
+	MALE   string = constants.GENDER_MALE
+	FEMALE string = constants.GENDER_FEMALE
 )
 
 func ValidateGender(status string) error {

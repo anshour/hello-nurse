@@ -30,7 +30,6 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 	})
 
 	if err != nil {
-
 		if err, ok := err.(*pq.Error); ok {
 			if err.Code == "23505" {
 				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Indentity Number already exist"})
@@ -41,7 +40,7 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 			})
 		}
 
-		return c.JSON(http.StatusInternalServerError, ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusNotFound, ErrorResponse{Message: err.Error()})
 	}
 	return c.JSON(http.StatusCreated, SuccessResponse{
 		Message: "Success",

@@ -21,11 +21,28 @@ func (dbase *V1Medical) PatientRegister(c echo.Context) (err error) {
 		})
 	}
 
+	if req.PhoneNumber != "" {
+		err = validator.ValidatePhoneNumber(req.PhoneNumber)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Message: err.Error(),
+			})
+		}
+	}
+	if req.Gender != "" {
+		err = validator.ValidateGender(req.Gender)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Message: err.Error(),
+			})
+		}
+	}
+
 	patient := medicalUsecase.New(medicalRepository.New(dbase.DB))
 
 	resp, err := patient.CreatePatient(&entities.PatientRegisterParams{
 		IdentityNumber: req.IdentityNumber,
-		BirthDate:      req.BirtDate,
+		BirthDate:      req.BirthDate,
 		Gender:         req.Gender,
 		Name:           req.Name,
 		PhoneNumber:    req.PhoneNumber,
