@@ -4,19 +4,15 @@ import (
 	entities "hello-nurse/src/entities/medical"
 )
 
-func (i *sMedicalUsecase) CreateRecord(p *entities.RecordRegisterParams) (*entities.RecordRegisterResult, error) {
+func (i *sMedicalUsecase) CreateRecord(p *entities.RecordRegisterParams) (*entities.RecordRegisterResponse, error) {
 
-	data, err := i.medicalRepository.CreateRecords(&entities.RecordRegisterParams{
-		IdentityNumber: p.IdentityNumber,
-		Symptoms:       p.Symptoms,
-		Medications:    p.Medications,
-	})
+	data, err := i.medicalRepository.CreateRecords(p)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &entities.RecordRegisterResult{
-		UserId: data.UserId,
+	return &entities.RecordRegisterResponse{
+		Id: data.Id,
 	}, nil
 }
