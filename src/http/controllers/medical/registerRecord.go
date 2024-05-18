@@ -6,6 +6,7 @@ import (
 	medicalUsecase "hello-nurse/src/usecase/medical"
 	"hello-nurse/src/utils/validator"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
@@ -22,6 +23,14 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 			Status:  false,
 		})
 	}
+
+	identityNumberStr := strconv.Itoa(req.IdentityNumber)
+	if len(identityNumberStr) != 16 {
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Message: "Identity number must 16 digit",
+		})
+	}
+
 	patient := medicalUsecase.New(medicalRepository.New(dbase.DB))
 
 	resp, err := patient.CreateRecord(&entities.RecordRegisterParams{
