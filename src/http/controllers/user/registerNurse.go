@@ -31,8 +31,14 @@ func (dbase *V1User) NurseRegister(c echo.Context) (err error) {
 		})
 	}
 
+	resultUrl := validator.ValidateUrl(req.IdentityImage)
+
+	if resultUrl != nil {
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Message: resultUrl.Error(),
+		})
+	}
 	user := userUsecase.New(userRepository.New(dbase.DB))
-	println("masuk sini ", req.Name)
 	resp, err := user.CreateNurse(&entities.NurseRegisterParams{
 		Nip:          req.Nip,
 		Name:         req.Name,

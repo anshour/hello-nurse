@@ -79,7 +79,7 @@ func (dbase *V1User) UserList(c echo.Context) (err error) {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "User list successfully",
 		Data:    users,
 	})

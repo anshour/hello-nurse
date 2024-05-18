@@ -13,6 +13,7 @@ func (i *controllerUser) Login(params *entities.LoginParams) (*entities.LoginRes
 	var role string
 	var password string
 	err := i.DB.QueryRow("SELECT id, nip, name, role, password FROM users WHERE nip = $1", params.Nip).Scan(&userId, &nip, &name, &role, &password)
+
 	if err != nil {
 		log.Printf("Error login user: %s", err)
 		return nil, err

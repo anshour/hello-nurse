@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/lib/pq"
 )
 
 // TODO: MAKE IT LOGIN AND NURSE LOGIN AS ONE FUNCTION
@@ -38,7 +39,28 @@ func (dbase *V1User) ITLogin(c echo.Context) (err error) {
 		Password: req.Password,
 	})
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	if result == nil {
+		return c.JSON(http.StatusNotFound, ErrorResponse{Message: "Nip not exist"})
+
+	}
+
+	if err != nil {
+		println("errrrr:", err.Error())
+
+		if err, ok := err.(*pq.Error); ok {
+			if err.Code == "23505" {
+				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Nip already exist"})
+			}
+
+			return c.JSON(http.StatusConflict, ErrorResponse{
+				Message: err.Detail,
+			})
+		}
+
+		return c.JSON(http.StatusNotFound, ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "Success",
 		Data:    result,
 	})

@@ -30,14 +30,10 @@ func (i *controllerUser) List(filters *entities.UserListFilter) ([]*entities.Use
 			conditions = append(conditions, "role = $"+strconv.Itoa(len(params)+1))
 			params = append(params, filters.Role)
 		}
-		if filters.CreatedAt != "" {
-			conditions = append(conditions, "created_at = $"+strconv.Itoa(len(params)+1))
-			params = append(params, filters.CreatedAt)
-		}
 
 		//TODO: FIX THIS
 		if filters.Nip != 0 {
-			conditions = append(conditions, fmt.Sprintf("nip LIKE $%d", len(params)+1))
+			conditions = append(conditions, fmt.Sprintf("CAST(nip AS VARCHAR LIKE $%d", len(params)+1))
 			params = append(params, "%"+strconv.Itoa(filters.Nip)+"%")
 		}
 
@@ -51,7 +47,14 @@ func (i *controllerUser) List(filters *entities.UserListFilter) ([]*entities.Use
 		filters.Limit = 5
 	}
 
-	baseQuery += " ORDER BY created_at DESC"
+	if filters.CreatedAt == "" {
+		filters.CreatedAt = "DESC"
+	}
+	if filters.CreatedAt == "asc" {
+		filters.CreatedAt = "ASC"
+	}
+
+	baseQuery += " ORDER BY created_at " + filters.CreatedAt
 
 	baseQuery += " LIMIT $" + strconv.Itoa(len(params)+1)
 	params = append(params, filters.Limit)

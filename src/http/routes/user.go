@@ -17,11 +17,10 @@ func (i *V1Routes) MountUser() {
 
 	group := i.Echo.Group("/user")
 	group.Use(middleware.Authentication(), middleware.OnlyRole("it"))
-
-	group.GET("/", userController.UserList)
 	group.POST("/nurse/register", userController.NurseRegister)
 	group.PUT("/nurse/:userId", userController.NurseEdit)
 	group.DELETE("/nurse/:userId", userController.NurseDelete)
 	group.POST("/nurse/:userId/access", userController.NurseAccess)
+	group.GET("", userController.UserList)
 
 }
