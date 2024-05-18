@@ -29,6 +29,7 @@ func (dbase *V1Medical) PatientRegister(c echo.Context) (err error) {
 			})
 		}
 	}
+
 	if req.Gender != "" {
 		err = validator.ValidateGender(req.Gender)
 		if err != nil {
@@ -36,6 +37,14 @@ func (dbase *V1Medical) PatientRegister(c echo.Context) (err error) {
 				Message: err.Error(),
 			})
 		}
+	}
+
+	err = validator.ValidateUrl(req.IdentityCard)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	patient := medicalUsecase.New(medicalRepository.New(dbase.DB))
