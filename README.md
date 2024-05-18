@@ -10,3 +10,4 @@ This is a backend service that provides a RESTful API for nurses and medical rec
 - Postgres
 
 - test readme
+- test github ci
