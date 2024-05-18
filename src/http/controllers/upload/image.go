@@ -12,6 +12,7 @@ func (dbase *V1Upload) UploadImage(c echo.Context) (err error) {
 
 	form, err := c.MultipartForm()
 	if err != nil {
+		println("error - 1", err)
 		return err
 	}
 	files := form.File["files"]
@@ -20,6 +21,8 @@ func (dbase *V1Upload) UploadImage(c echo.Context) (err error) {
 		// Source
 		src, err := file.Open()
 		if err != nil {
+			println("error - 2", err)
+
 			return err
 		}
 		defer src.Close()
@@ -27,6 +30,8 @@ func (dbase *V1Upload) UploadImage(c echo.Context) (err error) {
 		// Destination
 		dst, err := os.Create(file.Filename)
 		if err != nil {
+			println("error - 3", err)
+
 			return err
 		}
 		defer dst.Close()

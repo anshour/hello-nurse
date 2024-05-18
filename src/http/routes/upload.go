@@ -10,6 +10,6 @@ func (i *V1Routes) MountUpload() {
 	upload := uploadController.New(&uploadController.V1Upload{
 		DB: i.DB,
 	})
-	i.Echo.POST("image", upload.UploadImage, middleware.Authentication())
+	i.Echo.POST("/image", upload.UploadImage, middleware.Authentication())
 
 }
