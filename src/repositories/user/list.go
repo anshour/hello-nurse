@@ -66,6 +66,7 @@ func (i *controllerUser) List(filters *entities.UserListFilter) ([]*entities.Use
 	}
 	println("baseQuery: ", baseQuery)
 	rows, err := i.DB.Query(baseQuery, params...)
+
 	if err != nil {
 		log.Printf("Error finding user: %s", err)
 		return nil, err

@@ -1,6 +1,7 @@
 package userController
 
 import (
+	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	userRepository "hello-nurse/src/repositories/user"
 	userUsecase "hello-nurse/src/usecase/user"
@@ -34,6 +35,19 @@ func (dbase *V1User) NurseAccess(c echo.Context) (err error) {
 		Password: req.Password,
 		UserId:   userIdParams,
 	})
+
+	if err == constants.ErrNotFound {
+		return c.JSON(http.StatusNotFound, ErrorResponse{
+			Status:  false,
+			Message: err.Error(),
+		})
+	}
+	if err == constants.ErrInternalServer {
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  false,
+			Message: err.Error(),
+		})
+	}
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{

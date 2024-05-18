@@ -44,6 +44,19 @@ func (dbase *V1User) NurseEdit(c echo.Context) (err error) {
 		Name:   req.Name,
 	})
 
+	if err == constants.ErrNotFound {
+		return c.JSON(http.StatusNotFound, ErrorResponse{
+			Status:  false,
+			Message: err.Error(),
+		})
+	}
+	if err == constants.ErrInternalServer {
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  false,
+			Message: err.Error(),
+		})
+	}
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
 			Status:  false,

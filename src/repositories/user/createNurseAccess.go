@@ -1,7 +1,7 @@
 package userRepository
 
 import (
-	"errors"
+	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	"log"
 )
@@ -20,12 +20,12 @@ func (i *controllerUser) CreateNurseAccess(params *entities.NurseRegisterAccess)
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		log.Printf("Error checking row affected: %s", err)
-		return err
+		return constants.ErrInternalServer
 	}
 
 	if rowsAffected == 0 {
 		log.Printf("Error no row affected: %s", err)
-		return errors.New("No Row Affected")
+		return constants.ErrNotFound
 
 	}
 
