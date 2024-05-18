@@ -31,7 +31,7 @@ func (dbase *controllerMedical) ListRecord(filters *entities.RecordListFilter) (
 
 		if filters.UserId != "" {
 			conditions = append(conditions, "u.id = $"+strconv.Itoa(len(params)+1))
-			params = append(params, filters.IdentityNumber)
+			params = append(params, filters.UserId)
 		}
 
 		if filters.Nip != "" {
