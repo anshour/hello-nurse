@@ -8,3 +8,5 @@ This is a backend service that provides a RESTful API for nurses and medical rec
 
 - Go 1.22
 - Postgres
+
+- test readme
