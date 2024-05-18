@@ -24,7 +24,7 @@ func (i *controllerUser) List(filters *entities.UserListFilter) ([]*entities.Use
 		}
 		if filters.Name != "" {
 			conditions = append(conditions, "name LIKE $"+strconv.Itoa(len(params)+1))
-			params = append(params, filters.Name)
+			params = append(params, "%"+filters.Name+"%")
 		}
 		if filters.Role != "" {
 			conditions = append(conditions, "role = $"+strconv.Itoa(len(params)+1))
