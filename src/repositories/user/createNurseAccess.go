@@ -8,9 +8,8 @@ import (
 
 func (i *controllerUser) CreateNurseAccess(params *entities.NurseRegisterAccess) error {
 
-	println("pass: ", params.Password)
-	res, err := i.DB.Exec(`UPDATE users SET has_access = $3 AND password = $1 WHERE id = $2`,
-		params.Password, params.UserId, true,
+	res, err := i.DB.Exec(`UPDATE users SET password = $1, has_access = $2 WHERE id = $3`,
+		params.Password, true, params.UserId,
 	)
 
 	if err != nil {
