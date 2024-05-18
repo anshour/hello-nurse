@@ -48,7 +48,7 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 			}
 
 			if err.Code == constants.UniqueViolationNotExistData {
-				return c.JSON(http.StatusBadRequest, ErrorResponse{Message: "Patient with identity number doesnt exist"})
+				return c.JSON(http.StatusNotFound, ErrorResponse{Message: "Patient with identity number doesnt exist"})
 			}
 
 			return c.JSON(http.StatusConflict, ErrorResponse{
