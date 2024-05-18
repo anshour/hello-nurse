@@ -9,6 +9,23 @@ type PatientRegister struct {
 	IdentityCard   string `json:"identityCardScanImg" validate:"required,min=4,max=255"`
 }
 
+type PatientListFilter struct {
+	IdentityNumber string
+	Name           string
+	PhoneNumber    string
+	CreatedAt      string
+	Limit          int
+	Offset         int
+}
+
+type PatientListResult struct {
+	IdentityNumber string `json:"identityNumber"`
+	Name           string `json:"name"`
+	PhoneNumber    string `json:"phoneNumber"`
+	CreatedAt      string `json:"createdAt"`
+	Gender         string `json:"gender"`
+	BirthDate      string `json:"birthDate"`
+}
 type PatientRegisterResponse struct {
 	UserId string
 }

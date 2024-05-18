@@ -11,6 +11,7 @@ type controllerMedical struct {
 
 type MedicalRepositories interface {
 	CreatePatient(*entities.PatientRegisterParams) (*entities.PatientRegisterResponse, error)
+	ListPatient(*entities.PatientListFilter) ([]*entities.PatientListResult, error)
 	CreateRecords(*entities.RecordRegisterParams) (*entities.RecordRegisterResponse, error)
 }
 
