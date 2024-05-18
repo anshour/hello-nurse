@@ -51,7 +51,7 @@ func (dbase *V1User) NurseEdit(c echo.Context) (err error) {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "User Edit successfully",
 	})
 

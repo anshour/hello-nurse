@@ -31,7 +31,7 @@ func (dbase *V1User) NurseDelete(c echo.Context) (err error) {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "Nurse Delete successfully",
 		Data:    "",
 	})
