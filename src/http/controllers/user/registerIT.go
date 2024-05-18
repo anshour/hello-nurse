@@ -39,9 +39,8 @@ func (dbase *V1User) ITRegister(c echo.Context) (err error) {
 	})
 
 	if err != nil {
-
 		if err, ok := err.(*pq.Error); ok {
-			if err.Code == "23505" {
+			if err.Code == constants.UniqueViolationExistData {
 				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Nip already exist"})
 			}
 

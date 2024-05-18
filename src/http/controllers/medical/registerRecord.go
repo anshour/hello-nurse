@@ -1,6 +1,7 @@
 package medicalController
 
 import (
+	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/medical"
 	medicalRepository "hello-nurse/src/repositories/medical"
 	medicalUsecase "hello-nurse/src/usecase/medical"
@@ -42,11 +43,11 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 
 	if err != nil {
 		if err, ok := err.(*pq.Error); ok {
-			if err.Code == "23505" {
+			if err.Code == constants.UniqueViolationExistData {
 				return c.JSON(http.StatusConflict, ErrorResponse{Message: "Indentity Number already exist"})
 			}
 
-			if err.Code == "23503" {
+			if err.Code == constants.UniqueViolationNotExistData {
 				return c.JSON(http.StatusBadRequest, ErrorResponse{Message: "Patient with identity number doesnt exist"})
 			}
 

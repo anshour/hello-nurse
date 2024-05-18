@@ -18,7 +18,7 @@ func (dbase *controllerUser) EditNurse(params *entities.NurseEditParams) error {
 	if err != nil {
 		if err, ok := err.(*pq.Error); ok {
 			log.Printf("pg error %s", err.Error())
-			if err.Code == "23505" {
+			if err.Code == constants.UniqueViolationExistData {
 				return constants.ErrConflict
 			}
 		}
