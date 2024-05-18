@@ -67,7 +67,7 @@ func (dbase *V1Medical) RecordList(c echo.Context) (err error) {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "Success",
 		Data:    records,
 	})
