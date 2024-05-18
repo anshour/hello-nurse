@@ -31,9 +31,8 @@ func (i *controllerUser) List(filters *entities.UserListFilter) ([]*entities.Use
 			params = append(params, filters.Role)
 		}
 
-		//TODO: FIX THIS
 		if filters.Nip != 0 {
-			conditions = append(conditions, fmt.Sprintf("CAST(nip AS VARCHAR LIKE $%d", len(params)+1))
+			conditions = append(conditions, fmt.Sprintf("CAST(nip AS VARCHAR) LIKE $%d", len(params)+1))
 			params = append(params, "%"+strconv.Itoa(filters.Nip)+"%")
 		}
 
