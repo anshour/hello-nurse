@@ -35,7 +35,14 @@ func (dbase *V1Medical) PatientList(c echo.Context) (err error) {
 	}
 
 	if id := c.QueryParam("identityNumber"); id != "" {
-		filters.IdentityNumber = id
+		idInt, err := strconv.Atoi(id)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  false,
+				Message: "Invalid value for 'identity number'",
+			})
+		}
+		filters.IdentityNumber = idInt
 	}
 
 	if name := c.QueryParam("name"); name != "" {
@@ -60,7 +67,7 @@ func (dbase *V1Medical) PatientList(c echo.Context) (err error) {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "Success",
 		Data:    patients,
 	})

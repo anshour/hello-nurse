@@ -19,6 +19,7 @@ func (dbase *V1User) NurseDelete(c echo.Context) (err error) {
 			Message: "Invalid value for 'user id'",
 		})
 	}
+
 	user := userUsecase.New(userRepository.New(dbase.DB))
 
 	err = user.DeleteNurse(&entities.NurseDeleteParams{

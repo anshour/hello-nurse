@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS patients (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    identity_number VARCHAR(16) NOT NULL UNIQUE,
+    identity_number BIGINT NOT NULL UNIQUE,
     phone_number VARCHAR(16) NOT NULL, 
     name VARCHAR(30) NOT NULL,
     birth_date TIMESTAMP NOT NULL,

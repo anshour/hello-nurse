@@ -1,9 +1,9 @@
 package entities
 
 type RecordRegister struct {
-	IdentityNumber string `json:"identityNumber" validate:"required,min=16,max=16"`
-	Symptoms       string `json:"symptoms" validate:"required,min=5,max=255"`
-	Medications    string `json:"medications" validate:"required,min=5,max=255"`
+	IdentityNumber int    `json:"identityNumber" validate:"required"`
+	Symptoms       string `json:"symptoms" validate:"required,min=5,max=2000"`
+	Medications    string `json:"medications" validate:"required,min=5,max=2000"`
 }
 
 type RecordRegisterResponse struct {
@@ -12,7 +12,7 @@ type RecordRegisterResponse struct {
 
 type RecordRegisterParams struct {
 	UserId         string
-	IdentityNumber string
+	IdentityNumber int
 	Symptoms       string
 	Medications    string
 }
