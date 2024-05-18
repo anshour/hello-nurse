@@ -16,7 +16,6 @@ func (dbase *V1User) NurseRegister(c echo.Context) (err error) {
 	var req entities.NurseRegister
 
 	if err := validator.BindValidate(c, &req); err != nil {
-		println("error nih")
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
 			Message: err.Error(),
 			Status:  false,
