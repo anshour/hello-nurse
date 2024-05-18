@@ -4,6 +4,8 @@ import (
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	"log"
+
+	"github.com/lib/pq"
 )
 
 func (dbase *controllerUser) EditNurse(params *entities.NurseEditParams) error {
@@ -14,6 +16,13 @@ func (dbase *controllerUser) EditNurse(params *entities.NurseEditParams) error {
 		constants.ROLE_NURSE)
 
 	if err != nil {
+		if err, ok := err.(*pq.Error); ok {
+			log.Printf("pg error %s", err.Error())
+			if err.Code == "23505" {
+				return constants.ErrConflict
+			}
+		}
+
 		log.Printf("Error editing nurse: %s", err)
 		return err
 	}
