@@ -12,7 +12,8 @@ type sMedicalUsecase struct {
 type MedicalUsecase interface {
 	CreatePatient(*entities.PatientRegisterParams) (*entities.PatientRegisterResult, error)
 	ListPatient(*entities.PatientListFilter) ([]*entities.PatientListResult, error)
-	CreateRecord(*entities.RecordRegisterParams) (*entities.RecordRegisterResult, error)
+	CreateRecord(*entities.RecordRegisterParams) (*entities.RecordRegisterResponse, error)
+	ListRecord(*entities.RecordListFilter) ([]*entities.RecordListResult, error)
 }
 
 func New(
