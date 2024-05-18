@@ -14,6 +14,7 @@ import (
 func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 
 	var req entities.RecordRegister
+	UserId, _ := c.Get("userId").(string)
 
 	if err := validator.BindValidate(c, &req); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
@@ -24,6 +25,7 @@ func (dbase *V1Medical) RecordRegister(c echo.Context) (err error) {
 	patient := medicalUsecase.New(medicalRepository.New(dbase.DB))
 
 	resp, err := patient.CreateRecord(&entities.RecordRegisterParams{
+		UserId:         UserId,
 		IdentityNumber: req.IdentityNumber,
 		Symptoms:       req.Symptoms,
 		Medications:    req.Medications,

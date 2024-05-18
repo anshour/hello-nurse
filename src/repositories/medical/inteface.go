@@ -13,6 +13,7 @@ type MedicalRepositories interface {
 	CreatePatient(*entities.PatientRegisterParams) (*entities.PatientRegisterResponse, error)
 	ListPatient(*entities.PatientListFilter) ([]*entities.PatientListResult, error)
 	CreateRecords(*entities.RecordRegisterParams) (*entities.RecordRegisterResponse, error)
+	ListRecord(*entities.RecordListFilter) ([]*entities.RecordListResult, error)
 }
 
 func New(db *sql.DB) MedicalRepositories {
