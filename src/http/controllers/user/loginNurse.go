@@ -37,7 +37,10 @@ func (dbase *V1User) NurseLogin(c echo.Context) (err error) {
 		Password: req.Password,
 	})
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{Message: err.Error()})
+	}
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "Success",
 		Data:    result,
 	})
