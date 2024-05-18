@@ -13,7 +13,7 @@ func (i *V1Routes) MountUser() {
 	})
 	g.POST("/it/register", userController.ITRegister)
 	g.POST("/it/login", userController.ITLogin)
-	g.POST("/nurse/login", userController.ITLogin)
+	g.POST("/nurse/login", userController.NurseLogin)
 
 	group := i.Echo.Group("/user")
 	group.Use(middleware.Authentication(), middleware.OnlyRole("it"))
