@@ -15,7 +15,7 @@ var (
 	DB_NAME     = getEnv("DB_NAME", "")
 	DB_PORT     = getEnv("DB_PORT", "")
 	DB_HOST     = getEnv("DB_HOST", "")
-	DB_USERNAME = getEnv("DB_USER", "")
+	DB_USERNAME = getEnv("DB_USERNAME", "")
 	DB_PASSWORD = getEnv("DB_PASSWORD", "")
 	DB_PARAMS   = getEnv("DB_PARAMS", "sslmode=disable")
 
