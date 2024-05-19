@@ -23,7 +23,7 @@ var (
 	JWT_EXP     = getEnv("JWT_EXP", "8h")
 	BCRYPT_SALT = getEnvAsInt("BCRYPT_SALT", 8)
 
-	AWS_BUCKET            = getEnv("AWS_BUCKET", "")
+	AWS_BUCKET            = getEnv("AWS_S3_BUCKET_NAME", "")
 	AWS_REGION            = getEnv("AWS_REGION", "")
 	AWS_ACCESS_KEY_ID     = getEnv("AWS_ACCESS_KEY_ID", "")
 	AWS_SECRET_ACCESS_KEY = getEnv("AWS_SECRET_ACCESS_KEY", "")
