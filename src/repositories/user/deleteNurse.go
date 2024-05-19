@@ -4,10 +4,16 @@ import (
 	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	"log"
+	"time"
 )
 
 func (dbase *controllerUser) DeleteNurse(params *entities.NurseDeleteParams) error {
-	rows, err := dbase.DB.Exec("DELETE FROM users WHERE id = $1 AND role = $2", params.UserId, constants.ROLE_NURSE)
+
+	rows, err := dbase.DB.Exec("UPDATE users SET deleted_at = $1 WHERE id = $2 AND ROLE = $3",
+		time.Now(),
+		params.UserId,
+		constants.ROLE_NURSE,
+	)
 
 	if err != nil {
 		log.Printf("Error deleting user: %s", err)
