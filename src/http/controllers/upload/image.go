@@ -23,10 +23,28 @@ func (dbase *V1Upload) UploadImage(c echo.Context) (err error) {
 	const minSize int64 = 10 * 1024       // 10KB
 	const maxSize int64 = 2 * 1024 * 1024 // 2MB
 
+	contentType := c.Request().Header.Get("Content-Type")
+	if !strings.Contains(contentType, "multipart/form-data") {
+		return c.JSON(http.StatusBadRequest, ErrorResponse{
+			Status:  false,
+			Message: "Content type must be multipart/form-data",
+		})
+	}
+
 	// Read form file
 	file, err := c.FormFile("file")
 	if err != nil {
-		return err
+		if err.Error() == "http: no such file" {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  false,
+				Message: "File is empty",
+			})
+		}
+
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  false,
+			Message: err.Error(),
+		})
 	}
 
 	if file.Size < minSize {
@@ -39,13 +57,6 @@ func (dbase *V1Upload) UploadImage(c echo.Context) (err error) {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{
 			Status:  false,
 			Message: "file size maximum 2MB",
-		})
-	}
-
-	if file.Size == 0 {
-		return c.JSON(http.StatusBadRequest, ErrorResponse{
-			Status:  false,
-			Message: "file is empty",
 		})
 	}
 
@@ -99,7 +110,7 @@ func (dbase *V1Upload) UploadImage(c echo.Context) (err error) {
 
 	fileURL := fmt.Sprintf("https://%s.s3.%s.amazonaws.com/%s", config.AWS_BUCKET, config.AWS_REGION, newFilename)
 
-	return c.JSON(http.StatusCreated, SuccessResponse{
+	return c.JSON(http.StatusOK, SuccessResponse{
 		Message: "File uploaded sucessfully",
 		Data: UploadImageResponse{
 			ImageUrl: fileURL,
