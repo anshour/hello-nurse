@@ -1,6 +1,7 @@
 package userUsecase
 
 import (
+	"hello-nurse/src/constants"
 	entities "hello-nurse/src/entities/user"
 	"hello-nurse/src/utils/jwt"
 	"hello-nurse/src/utils/password"
@@ -20,10 +21,10 @@ func (i *sUserUsecase) LoginUser(p *entities.LoginParams) (*entities.LoginResult
 		return nil, err
 	}
 
-	errs := password.Verify(data.Password, p.Password)
-	if errs != nil {
+	err = password.Verify(data.Password, p.Password)
+	if err != nil {
 		log.Printf("Error Password verify: %s", err)
-		return nil, err
+		return nil, constants.ErrNotFound
 
 	}
 
